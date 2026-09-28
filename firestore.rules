@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global Safety Net: Default Deny All
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. Voters Registry Rules
+    // Channel all transactions strictly through server-side REST API proxy endpoints.
+    // Client SDK has no direct write or query permissions to avoid credential harvesting or ID enumeration.
+    match /voters/{voterId} {
+      allow read, write: if false;
+    }
+
+    // 3. Ballots Rules
+    // Ballot storage is server-controlled to enforce voter verification and one-vote restrictions.
+    match /ballots/{ballotId} {
+      allow read, write: if false;
+    }
+  }
+}

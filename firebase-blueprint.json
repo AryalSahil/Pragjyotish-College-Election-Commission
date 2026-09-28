@@ -1,0 +1,108 @@
+{
+  "entities": {
+    "voter": {
+      "title": "Voter Profile",
+      "description": "Represents a student registered on the official college electoral roll.",
+      "type": "object",
+      "properties": {
+        "enrollmentId": { "type": "string" },
+        "name": { "type": "string" },
+        "department": { "type": "string" },
+        "semester": { "type": "string" },
+        "voterId": { "type": "string" },
+        "eligible": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "accessCode": { "type": "string" },
+        "hasVoted": { "type": "boolean" },
+        "votedAt": { "type": "string" }
+      },
+      "required": ["enrollmentId", "name", "department", "semester", "voterId", "eligible", "status", "accessCode", "hasVoted"]
+    },
+    "ballot": {
+      "title": "Anonymous Ballot",
+      "description": "Represents an encrypted, anonymous vote.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "position": { "type": "string" },
+        "candidateName": { "type": "string" },
+        "castAt": { "type": "string" }
+      },
+      "required": ["id", "position", "candidateName", "castAt"]
+    },
+    "candidate": {
+      "title": "Election Candidate",
+      "description": "Represents a student contesting for an executive portfolio in the students' union.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "enrollmentId": { "type": "string" },
+        "position": { "type": "string" },
+        "party": { "type": "string" },
+        "department": { "type": "string" },
+        "motto": { "type": "string" },
+        "image": { "type": "string" },
+        "approved": { "type": "boolean" },
+        "published": { "type": "boolean" },
+        "withdrawn": { "type": "boolean" },
+        "agenda": { "type": "array" },
+        "bio": { "type": "string" }
+      },
+      "required": ["id", "name", "enrollmentId", "position", "party", "department", "motto", "image", "approved", "published", "withdrawn"]
+    },
+    "activityLog": {
+      "title": "Admin Audit Log",
+      "description": "Immutable ledger tracking all sensitive electoral administrative operations.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "action": { "type": "string" },
+        "adminEmail": { "type": "string" },
+        "details": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["id", "action", "adminEmail", "details", "timestamp"]
+    },
+    "election": {
+      "title": "Election Cycle Event",
+      "description": "Represents an individual student union election poll event with configured slots, times and rules.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "year": { "type": "string" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "status": { "type": "string", "enum": ["scheduled", "ongoing", "paused", "completed", "cancelled", "archived"] },
+        "positions": { "type": "array" },
+        "eligibleSemesters": { "type": "array" },
+        "cancelReason": { "type": "string" }
+      },
+      "required": ["id", "title", "description", "year", "startDate", "endDate", "status", "positions", "eligibleSemesters"]
+    }
+  },
+  "firestore": {
+    "voters/{voterId}": {
+      "schema": "voter",
+      "description": "Registry of student voters."
+    },
+    "ballots/{ballotId}": {
+      "schema": "ballot",
+      "description": "Anonymous cast ballots."
+    },
+    "candidates/{candidateId}": {
+      "schema": "candidate",
+      "description": "Nominated and contesting student portfolios."
+    },
+    "activityLogs/{logId}": {
+      "schema": "activityLog",
+      "description": "Audit trails of admin adjustments."
+    },
+    "elections/{electionId}": {
+      "schema": "election",
+      "description": "Configured multiple election cycle events."
+    }
+  }
+}

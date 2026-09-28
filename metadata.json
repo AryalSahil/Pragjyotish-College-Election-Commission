@@ -1,0 +1,6 @@
+{
+  "name": "Govt. Pragjyotish College Online Election System",
+  "description": "The official online portal for Govt. Pragjyotish College Students' Union Elections. View candidate details, live election countdowns, announcements, and official election results.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

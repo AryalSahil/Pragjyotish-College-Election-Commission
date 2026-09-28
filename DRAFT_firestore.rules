@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global Safety Net: Default Deny All
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. Voters Registry Rules
+    // Direct client access is denied to block list enumeration or data-mining.
+    match /voters/{voterId} {
+      allow read, write: if false;
+    }
+
+    // 3. Ballots Rules
+    // Direct client access is denied. All ballots are managed through Express server.
+    match /ballots/{ballotId} {
+      allow read, write: if false;
+    }
+  }
+}
